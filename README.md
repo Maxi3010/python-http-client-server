@@ -1,31 +1,35 @@
-# Networking HTTP Client and Server
+# Python HTTP Client and Server
 
-Ein kompaktes Python-Projekt, das die Grundlagen von TCP, HTTP/1.1 und TLS
-ohne externe Bibliotheken demonstriert. Es enthaelt einen kleinen lokalen
-Webserver sowie einen interaktiven Kommandozeilen-Browser, der Webseiten
-abruft, HTTP-Header darstellt und gefundene Links zur Navigation anbietet.
+An educational networking project that demonstrates how TCP, HTTP/1.1, TLS,
+and HTML link parsing work using only the Python standard library.
 
-## Funktionen
+The repository includes a small static web server and an interactive
+command-line HTTP client. The client displays response status information and
+headers, extracts links from HTML pages, and allows users to navigate between
+them.
 
-- HTTP- und HTTPS-Verbindungen ueber TCP-Sockets
-- TLS mit Zertifikatspruefung ueber Pythons Standard-SSL-Kontext
-- Vollstaendiges Einlesen von Antworten beliebiger Groesse
-- Unterstuetzung fuer `Transfer-Encoding: chunked`
-- Parsing von Statuszeile, Headern und HTML-Links
-- Navigation ueber relative und absolute Links
-- Lokaler, nebenlaeufiger HTTP-Testserver
-- Schutz des Servers vor Directory-Traversal-Angriffen
-- Automatisierte Unit- und Integrationstests
-- Keine externen Python-Abhaengigkeiten
+## Features
 
-## Projektstruktur
+- HTTP and HTTPS connections over TCP sockets
+- TLS certificate verification using Python's default SSL context
+- Complete response reading without fixed-size body assumptions
+- Support for `Transfer-Encoding: chunked`
+- HTTP status line, header, and response body parsing
+- Extraction of link text and targets from HTML
+- Navigation through relative and absolute links
+- Concurrent local static HTTP server
+- Protection against directory traversal attacks
+- Unit and integration tests
+- No third-party dependencies
+
+## Project Structure
 
 ```text
 .
-|-- Maximilian.py          # Interaktiver HTTP-Kommandozeilen-Browser
-|-- connection_helper.py   # Wiederverwendbare TCP-/TLS-Verbindung
-|-- webserver.py           # Lokaler statischer HTTP-Server
-|-- example.html           # Beispielseite mit zwei Links
+|-- Maximilian.py          # Interactive command-line HTTP client
+|-- connection_helper.py   # Reusable TCP and TLS connection helper
+|-- webserver.py           # Local static HTTP server
+|-- example.html           # Example page containing navigation links
 |-- link1.html
 |-- link2.html
 |-- tests/
@@ -34,88 +38,91 @@ abruft, HTTP-Header darstellt und gefundene Links zur Navigation anbietet.
 `-- README.md
 ```
 
-## Voraussetzungen
+## Requirements
 
-- Python 3.10 oder neuer
-- Freier lokaler TCP-Port, standardmaessig `8080`
+- Python 3.10 or newer
+- An available local TCP port, `8080` by default
 
-Das Projekt verwendet ausschliesslich die Python-Standardbibliothek. Eine
-Installation zusaetzlicher Pakete ist nicht erforderlich.
+The project uses only modules from the Python standard library. No package
+installation is required.
 
-## Schnellstart
+## Getting Started
 
-Repository klonen und in das Projektverzeichnis wechseln:
+Clone the repository and enter its directory:
 
 ```bash
-git clone <repository-url>
-cd Networking_Maximilian_Knapp
+git clone https://github.com/Maxi3010/python-http-client-server.git
+cd python-http-client-server
 ```
 
-Den lokalen Webserver starten:
+Start the local web server:
 
 ```bash
 python webserver.py
 ```
 
-Der Server ist anschliessend unter
-[`http://127.0.0.1:8080/`](http://127.0.0.1:8080/) erreichbar.
+The example website is now available at
+[`http://127.0.0.1:8080/`](http://127.0.0.1:8080/).
 
-In einem zweiten Terminal den Kommandozeilen-Browser starten:
+Open a second terminal and start the command-line client:
 
 ```bash
 python Maximilian.py
 ```
 
-Als URL kann fuer den lokalen Test beispielsweise Folgendes eingegeben werden:
+Enter the following URL to test the client against the local server:
 
 ```text
 http://127.0.0.1:8080/example
 ```
 
-Der Client zeigt Status und Header sowie eine nummerierte Linkliste an. Mit
-der jeweiligen Nummer wird ein Link geoeffnet, mit `0` endet das Programm.
+The client displays the HTTP status, response headers, and a numbered list of
+links. Enter a link number to follow it or `0` to exit.
 
-## Serveroptionen
+## Server Configuration
 
-Host, Port und Dokumentenverzeichnis koennen angepasst werden:
+The bind address, port, and document directory can be configured through
+command-line options:
 
 ```bash
 python webserver.py --host 127.0.0.1 --port 9000 --directory .
 ```
 
-Alle Optionen:
+Display all available options:
 
 ```bash
 python webserver.py --help
 ```
 
-## Tests
+## Running the Tests
 
-Die Tests lassen sich ohne weitere Installation ausfuehren:
+Run the complete test suite with:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Sie pruefen unter anderem:
+The tests cover:
 
-- HTTP-Status-, Header- und Body-Parsing
-- Dekodierung von Chunked Transfer Encoding
-- Extraktion von Linktext und Linkziel
-- Zusammenspiel von Client und lokalem Server
-- Fehlerantworten und Schutz vor Pfadmanipulation
+- HTTP status, header, and body parsing
+- Chunked transfer decoding
+- HTML link text and target extraction
+- Client and server integration
+- Missing-file responses
+- Directory traversal protection
 
-## Technische Hinweise
+## Technical Notes
 
-Der Client sendet bewusst rohe HTTP/1.1-Anfragen, um den Netzwerkablauf
-nachvollziehbar zu halten. Er ist ein Lernprojekt und kein Ersatz fuer eine
-vollstaendige HTTP-Bibliothek wie `urllib3` oder `requests`.
+The client intentionally creates raw HTTP/1.1 requests to make the underlying
+network exchange visible and understandable. It is designed as a learning
+project and is not intended to replace production HTTP libraries such as
+`urllib3` or `requests`.
 
-Der Server ist fuer lokale Entwicklung und Demonstrationen vorgesehen. Fuer
-einen produktiven Internetbetrieb sollte ein etablierter Application- oder
-Webserver mit zusaetzlicher Absicherung eingesetzt werden.
+The included server is intended for local development and demonstration. A
+production deployment should use an established application or web server
+with appropriate operational security controls.
 
-## Lizenz
+## License
 
-Der aus dem bereitgestellten Ausgangscode uebernommene Anteil steht unter der
-BSD-3-Clause-Lizenz. Details befinden sich in [LICENSE](LICENSE).
+The source code derived from the provided starter project is distributed under
+the BSD 3-Clause License. See [LICENSE](LICENSE) for details.
